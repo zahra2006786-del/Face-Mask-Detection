@@ -2,13 +2,19 @@ import streamlit as st
 import numpy as np
 from PIL import Image
 import tensorflow as tf
+import os
 
 st.set_page_config(page_title='Face Mask Detection', layout='centered')
 st.title('😷 Face Mask Detection Web App Using CNN 🧠')
 
 # Loading model 
 def load_model():
-    model = tf.keras.models.load_model('tf_model.keras')
+    model_path = 'tf_model.keras'
+    if not os.path.exists(model_path):
+        st.error('Model not found')
+        st.stop()
+        
+    model = tf.keras.models.load_model('tf_model.keras', compile=False)
     return model
 
 model = load_model()
